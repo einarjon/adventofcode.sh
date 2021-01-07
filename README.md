@@ -1,2 +1,126 @@
 # adventofcode.sh
 Advent of Code 2020, done in bash. Because why not?
+https://adventofcode.com/2020/
+
+Input not included, but can be given on the command line.
+Defaults to *number*.txt in the same folder (no leading 0).
+
+Description of what I'm doing. Contains spoilers....
+
+### 01.sh
+ 1. Simple grep. Loop through all the numbers looking for 2020-i.
+ 2. Double loop through all the numbers looking for 2020-i-j.
+
+### 02.sh
+ Simple read and string manipulation. Use IFS to split up the min/max and remove the ':'.
+ 1. Remove everything except the correct letter, then count what is left.
+ 2. Check the letters in the position given.
+
+### 03.sh
+ 1. Collect all the characters in our path to a string. Remove the '.' and check the remaining length.
+ 2. Same with more paths.
+
+### 04.sh
+ Use case globbing to find the entries. If field is found, remove a letter representing that field from a string of all fields.
+ If all letters have been removed when the entry is parsed, the entry is valid.
+ Swap the empty line between entries with a XXX and use IFS to simplify handling.
+
+### 05.sh
+ 1. Convert to binary with tr. Reverse sort pushes highest number to top. Convert from binary to decimal.
+ 2. Check if two numbers in a row end in the same number (0 or 1). Those are the neighbours of the match.
+
+### 06.sh
+ 1. Remove the letters from a string of all answers like in day 4. Number of answers is then strlen(all)-strlen(remaining).
+ 2. Reverse the approach. First line now becomes the string of all answers. Subsequent lines remove letters that are missing, until only the common ones remain.
+
+### 07.sh
+ 1. So much grep. Grep until you can grep no more.
+ 2. Recursive function that uses grep to count the number of bags in a bag (including itself).
+    Remember to deduct 1 shiny gold bag from the answer.
+
+### 08.sh
+ 1. Use a switch to handle the jumps. Mark "touched" instructions with an x. Stop when a "touched" instruction is found.
+ 2. Brute force swapping of one jmp/nop at a time. Run as in part 1 until the program completes.
+
+### 09.sh
+ 1. Brute force. First one to take more than half a second to run. Using index is much faster than $(seq ...);
+ 2. Sliding window until the number is found.
+
+### 10.sh
+ 1. Iterate through the list, collect the diffs into buckets. Multiply bucket 1 and 3.
+ 2. Same as part 1, but collect the diffs into a string (order matters). Each string of ones has a variety of paths, but 3s have only one path.
+    Since there are only 1s and 3s in the list, split into strings of ones, plug in possible paths and multiply.
+
+### 11.sh
+ 1. 2D arrays suck in bash. Use an array of strings, and a lot of string manipulation. Slow, since we need to calculate neighbours of 7000 seats +80 times.
+    Optimized a bit to skip the first round and the "always full" seats (very little gain), and only check lines if they or their neighbour line changed last round (big gain).
+ 2. More of the same. Optimizing to skip lines is not really possible, since keeping track of what neighbours changed is too much work.
+
+### 12.sh
+ 1. Store X and Y position in separate strings. Keep track of H(eading) each time a rotation is made and convert F to the correct direction.
+ 2. Same as 1, but also store x and y position of waypoint. Convert rotation manually, because thinking is hard. F just jumps towards (x,y).
+
+### 13.sh
+ 1. Filter out x-es using IFS, store the min value and the ID. Multiply.
+ 2. Simple (possibly not correct) implementation of Chinese Remainder Theorem.
+
+### 14.sh
+ 1. Switch case similar to day 4 and 8. Use eval to avoid parsing the number in mem\[x\].
+ 2. Use IFS and read to simplify handling.
+    Recursive function that converts the first X to 1 and 0, and calls itself twice until no X remains. Then do the thing.
+
+## Getting harder
+  The puzzles from day 15 are starting to be pushing the limits of bash. Runtime is in seconds instead of tens or hundreds of milliseconds.
+
+### 15.sh
+ 1. Store the last known position in a sparse array. Calculate next position until done.
+ 2. Finally bash fails. Sparse arrays in bash seem to be linked lists, so accessing/adding an item is O\[Nlog(N)\] or worse.
+    Gave up after 20 hours getting to item 6.1M, and solved it in 10-12 seconds with awk.
+    Using a sharded-set https://github.com/romkatv/advent-of-code-2019 solves this in about half an hour.
+
+### 16.sh
+ 1. Find the min/max of the classes, then loop through every ticket to find illegal values.
+ 2. A. Filter out bad tickets.
+    B. Then do the same trick as in day 4, for every field. Any number outside the min/max marks it as invalid.
+    C. Find a field that has only one character left, mark that as the correct. Remove that character from all fields. Repeat until solved.
+
+### 17.sh - not done
+ 1. A repeat of day 14, but with extra bother. Bash really isn't suitable for 3-D arrays (or 2-D arrays for that matter...). But it's only 13 layers total...
+   Could be optimized to only consider the +Z direction, because symmetry.
+ 2. 4-D arrays. Nope...
+
+### 18.sh
+ Have to turn glob off, or \* will be replaced with all files in directory.
+ 1. Recursive grep to find a brackets that don't contain inner brackets. Calculate those. Replace the whole bracket with calculated result. Repeat. Slow but works.
+ 2. Just replace "\*" with ")\*(" to change the precedence. Add "(" and ")" to the ends to close off the brackets.
+
+### 19.sh
+ 1. Recursive regex building. Use a cache to speed up previously built regex.
+ 2. Cheat a bit and use regex{n} to denote repeated matches.
+
+### 20.sh
+ 1. Slice and dice all permutations of the edges into arrays. Grep each tile against all permutations of edges.
+    The ones with only 6 matches are corners. The ones with 7 are edges.
+ 2. Tile matching 144 pieces. Nope...
+
+### 21.sh
+ Grep, sort, count
+ 1. Get a sorted list of allergens, and number of lines they appear in. Find the ingredients that appear in all those lines. Then count the remaining ones.
+ 2. Same as 16 part 2. Find an allergen that only has 1 ingredient. Store and remove. Repeat until all ingredients are removed. 
+
+### 22.sh
+ 1. Simple while loop. Run until one array is empty.
+ 2. Recursive while loop. Store all permutations of A/B as a key in hash table to find repeats. Takes +2 minutes to run.
+
+### 23.sh
+ 1. String manipulation. Lots of trial and error to get it right.
+ 2. Not suitable for bash. Done in awk, but still takes about half a minute
+
+### 24.sh
+ 1. Use an X-Y grid with only diagonals. One step can be (±2,0) or (±1,±1). Modify input so that standalone e/w are doubled, and count the total movement.
+ 2. Hex game of life, with negative indexes. Not suitable for bash. Nope...
+
+### 25.sh
+ 1. A couple of while loops. Yay.
+ 2. I need to complete 17, 20-2 and 24-2 to get this one. Nope.
+
