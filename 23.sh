@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-A=${1:-167248359}
+A=$(<${1:-23.txt})
 i=0
 for k in {0..99}; do
 c=${A:i:1}
@@ -13,7 +13,7 @@ while [ ${A:i:1} != $c ]; do [ $((++i)) = 9 ] && i=0; done
 [ $((++i)) = 9 ] && i=0
 done
 echo "23A: ${A/*1}${A/1*}"
-A=167248359
+A=$(<${1:-23.txt})
 #A=389125467
 printf $A | sed -e "s/\(.\)/\1\n/g" | awk '
 { if(last){ C[last]=$0 }else{ cup=$0 }; last=$0; ++i; }

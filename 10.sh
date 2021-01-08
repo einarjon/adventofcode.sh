@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-A=($(sort -n 10.txt))
+A=($(sort -n ${1:-10.txt}))
 DIFF=("" "" "" "1") # add 3 for the built-in
 j=0; for i in "${A[@]}"; do DIFF[$((i-j))]+=1;j=$i; done
 echo "10A: ${#DIFF[1]}*${#DIFF[3]}=$((${#DIFF[1]}*${#DIFF[3]}))"
