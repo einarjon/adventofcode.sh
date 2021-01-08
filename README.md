@@ -91,7 +91,7 @@ Description of what I'm doing. Contains spoilers....
 
 ### 18.sh
  Have to turn glob off, or \* will be replaced with all files in directory.
- 1. Recursive grep to find a brackets that don't contain inner brackets. Calculate those. Replace the whole bracket with calculated result. Repeat. Slow but works.
+ 1. Bash regex to find a bracket that doesn't contain inner brackets. Calculate that. Replace the whole bracket with result. Repeat until no brackets remain. Slow, but faster than grep -o.
  2. Just replace "\*" with ")\*(" to change the precedence. Add "(" and ")" to the ends to close off the brackets.
 
 ### 19.sh
