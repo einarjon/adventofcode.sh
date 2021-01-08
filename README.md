@@ -2,8 +2,9 @@
 Advent of Code 2020, done in bash. Because why not?
 https://adventofcode.com/2020/
 
-Input not included, but can be given on the command line.
+Input can be given on the command line.
 Defaults to *number*.txt in the same folder (no leading 0).
+Added my input files in input/ folder.
 
 Description of what I'm doing. Contains spoilers....
 
