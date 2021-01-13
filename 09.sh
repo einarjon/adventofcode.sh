@@ -15,8 +15,8 @@ done
 
 k=0; j=0; sum=${A[j++]}
 while [ $sum != ${A[i]} ]; do
-    if [[ $sum -lt ${A[i]} ]]; then   sum=$((sum+A[j++]))
-    elif [[ $sum -gt ${A[i]} ]]; then sum=$((sum-A[k++]))
+    if   [[ $sum -lt ${A[i]} ]]; then ((sum+=A[j++]))
+    elif [[ $sum -gt ${A[i]} ]]; then ((sum-=A[k++]))
     fi
     [[ $j -ge $i ]] && echo NOT FOUND && break
 done

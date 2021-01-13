@@ -6,16 +6,16 @@ c=${A:i:1}
 out=${A:i+1:3}
 A2=${A/$out}
 [ ${#out} -lt 3 ] && A2=${A2:3-${#out}} && out+=${A:0:3-${#out}}
-d=$((${A:i:1}-1)); [ $d = 0 ] && d=9; while [ ${out/$d} != ${out} ]; do [ $((--d)) = 0 ] && d=9; done
+d=${A:i:1}; ((--d)) || d=9; while [ ${out/$d} != ${out} ]; do ((--d)) || d=9; done
 A=${A2/$d/$d${out}}
 #echo $A : $c : $A2-$d:$out
-while [ ${A:i:1} != $c ]; do [ $((++i)) = 9 ] && i=0; done
-[ $((++i)) = 9 ] && i=0
+while [ ${A:i:1} != $c ]; do ((++i==9)) && i=0; done
+((++i==9)) && i=0
 done
 echo "23A: ${A/*1}${A/1*}"
 A=$(<${1:-23.txt})
 #A=389125467
-printf $A | sed -e "s/\(.\)/\1\n/g" | awk '
+grep -o [1-9] <<< "$A" | awk '
 { if(last){ C[last]=$0 }else{ cup=$0 }; last=$0; ++i; }
 END{
 N=10000000;

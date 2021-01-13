@@ -13,14 +13,14 @@ echo "14A: $((sum))"
 r() {
     local x=${2/X/0}
     if [ "$x" = "$2" ]; then
-        mem2[$(($1|(2#$x)))]=$3
+        mem2[$1|(2#$x)]=$3
     else
         r $1 $x $3
         r $1 ${2/X/1} $3
     fi
 }
 
-IFS=$' []=\n\r'
+IFS=$' []=\n'
 while read i y _ v; do
    case "$i" in
        mask*) o=$((2#${y//X/0})); m=${y//1/0}; z=$((~2#${m//X/1}));;

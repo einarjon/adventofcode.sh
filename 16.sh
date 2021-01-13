@@ -6,7 +6,7 @@ A=($(grep "," $input))
 sum=""
 for i in ${!A[@]}; do
   for j in ${A[i]//,/ }; do
-    [[ $j -lt $min || $j -gt $max ]] && sum+=+$j && A[i]=""
+    (( j < min || j > max )) && sum+=+$j && A[i]=""
   done
 done
 echo "16A: $((sum))"
@@ -27,8 +27,8 @@ for line in ${B[@]}; do
   T=(${line//,/ })
   for i in $idx; do
     for n in $idx; do
-      if [[ ${T[n]} -lt ${Cm1[i]} || ${T[n]} -gt ${CM1[i]} ]] && [[ ${T[n]} -lt ${Cm2[i]} || ${T[n]} -gt ${CM2[i]} ]]; then
-          Cf[$i]=${Cf[$i]//${f[n]}} # remove out of range char
+      if (( (T[n] < Cm1[i] || T[n] > CM1[i]) && (T[n] < Cm2[i] || T[n] > CM2[i]) )); then
+        Cf[i]=${Cf[i]//${f[n]}} # remove out of range char
       fi
     done
   done
@@ -39,8 +39,8 @@ while [[ "$oldC" != "${Cf[*]}" ]]; do
   oldC="${Cf[*]}"
   for i in $idx; do
     if [ ${#Cf[i]} = 1 ] ; then
-      x=${Cf[i]}; n=$((36#$i))
-      [ ${C[i]:0:3} = dep ] && total+=*${my_ticket[$n]}
+      x=${Cf[i]}
+      [ ${C[i]:0:3} = dep ] && total+=*${my_ticket[36#$i]}
       Cf=("${Cf[@]//$x}")
     fi
   done
