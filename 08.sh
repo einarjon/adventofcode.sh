@@ -8,9 +8,9 @@ solve8() {
         x=${A[i]}; y=${x/* }; A[i]+=DONE
         case "$x" in
             *DONE) return 1;;
-            acc*) acc=$((acc+($y))); i=$((i+1));;
-            jmp*) i=$((i+($y)));;
-            nop*) i=$((i+1)) ;;
+            acc*) ((acc+=y,++i));;
+            jmp*) ((i+=y));;
+            nop*) ((++i));;
             *) echo "ERROR $i: $x"; return 1;;
         esac
         [[ $i -ge ${#A[@]} ]] && return 0
@@ -27,4 +27,3 @@ for k in ${!A[@]}; do
     A=("${B[@]}")
 done
 [[ $i -ge ${#A[@]} ]] && echo "8B: $acc"
-

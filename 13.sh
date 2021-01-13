@@ -14,7 +14,7 @@ for i in ${!A[@]}; do [ ${A[i]} != x ] && B[$i]=${A[i]} ; done
 N=0; step=1
 #echo "${!B[@]} => "${B[@]}""
 for i in "${!B[@]}"; do
-    while [ $(( (N+i) % ${B[$i]})) != 0 ]; do N=$((N+step)); done
-    step=$((step*${B[$i]}))
+    while (((N+i)%${B[$i]})); do ((N+=step)); done
+    ((step*=${B[$i]}))
 done
 echo "13B: $N"

@@ -8,7 +8,7 @@ c() {
         if [[ $i = '+' || $i = '*' ]]; then
             op=$i
         else
-            sum=$((sum$op$i))
+            ((sum$op=$i))
         fi
     done
     #echo "c: ${*//[()]} = $sum " >&2
@@ -16,15 +16,14 @@ c() {
 }
 
 IFS=$' \t\n'
-regex="\([^()]*\)"
+regex="\(([^()]*)\)"
 sum=""
 for line in "${A[@]}"; do
     while [[ "$line" =~ $regex ]]; do
-        k=${BASH_REMATCH[0]}
-        n=$(c "$k")
-        line="${line/${k//\*/\\*}/$n}" # stupid globbing
+        n=$(c ${BASH_REMATCH[1]})
+        line="${line/${BASH_REMATCH[0]//\*/\\*}/$n}" # stupid globbing
     done
-    sum+=+$(c "$line")
+    sum+=+$(c $line)
 done
 echo "18A: $((sum))"
 echo "18B: $(($(printf "+(%s)" "${A[@]//\*/)*(}")))"

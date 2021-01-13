@@ -11,6 +11,6 @@ for i in ${A[@]}; do
     idx="N$((${#n}-${#s}))E$((${#e}-${#w}))"
     B[${idx//-/_}]+=1
 done
-for i in ${B[*]}; do sum+=+$((${#i}%2)); done
+for i in ${B[*]}; do sum+="+${#i}%2"; done
 echo "24A: $((sum))"
 #echo "24B: ??"
