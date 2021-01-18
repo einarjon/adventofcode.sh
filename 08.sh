@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 IFS=$'\n'
-A=($(< ${1:-8.txt}))
+A=($(< "${1:-8.txt}"))
 B=("${A[@]}")
 solve8() {
     acc=0; i=0;
@@ -19,7 +19,7 @@ solve8() {
 solve8 || echo "8A: $acc"
 
 A=("${B[@]}");
-for k in ${!A[@]}; do
+for k in "${!A[@]}"; do
     if   [ ${A[k]:0:3} = nop ]; then A[k]=${A[k]/nop/jmp};
     elif [ ${A[k]:0:3} = jmp ]; then A[k]=${A[k]/jmp/nop};
     else continue; fi

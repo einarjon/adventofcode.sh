@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 IFS=$'\n'
-A=($(sed -e "s/\./_/g" ${1:-20.txt}))
+A=($(tr '.' '_' < "${1:-20.txt}"))
 T=($(printf "%s\n" "${A[@]}" | grep -o "[0-9]*" ))
 U=($(printf "%s\n" "${A[@]}" | grep -A1 T | grep -E "[_#]" ))
 D=($(printf "%s\n" "${A[@]}" T | grep -B1 T | grep -E "[_#]" ))
@@ -13,9 +13,8 @@ Lr=($(printf "%s\n" "${L[*]}" | rev))
 Rr=($(printf "%s\n" "${R[*]}" | rev))
 ENDS=() x=0
 for i in "${!U[@]}"; do
-     x=$(printf "%s\n" "${U[*]}" "${Ur[*]}" "${D[*]}" "${Dr[*]}" "${L[*]}" "${Lr[*]}" "${R[*]}" "${Rr[*]}" | grep -c -e ${U[i]} -e ${Dr[i]} -e ${Lr[i]} -e ${R[i]} )
-    [ $x = 6 ] && ENDS+=( ${T[i]} )
+     x=$(printf "%s\n" "${U[*]}" "${Ur[*]}" "${D[*]}" "${Dr[*]}" "${L[*]}" "${Lr[*]}" "${R[*]}" "${Rr[*]}" | grep -c -e "${U[i]}" -e "${Dr[i]}" -e "${Lr[i]}" -e "${R[i]}" )
+    [ "$x" = 6 ] && ENDS+=("${T[i]}")
 done
-sum=1
-for i in ${ENDS[*]}; do sum+=*$i; done
-echo "20A: ${sum:2}=$((sum))"
+printf -v sum "*%s" "${ENDS[@]}"; sum=${sum:1}
+echo "20A: $sum=$((sum))"

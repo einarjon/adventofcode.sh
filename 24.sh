@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
-A=($(sed -e "s/\([ew]\)\([ew]*\)/\1\2\2/g;s/^\([ew]\)/\1\1/" ${1:-24.txt} ))
-#A=($(< ${1:-24.txt}))
+A=($(sed -e "s/\([ew]\)\([ew]*\)/\1\2\2/g;s/^\([ew]\)/\1\1/" "${1:-24.txt}" ))
+#A=($(< "${1:-24.txt}"))
 declare -A B
 sum=0
-for i in ${A[@]}; do
+for i in "${A[@]}"; do
     s=${i//[^s]}
     n=${i//[^n]}
     e=${i//[^e]}

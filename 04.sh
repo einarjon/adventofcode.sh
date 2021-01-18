@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 X='epEhbiH'; x=$X; ans=0
 IFS=$' \n'
-A=($(sed s/^$/XXX/ ${1:-4.txt}))
+A=($(sed s/^$/XXX/ "${1:-4.txt}"))
 for i in "${A[@]}" XXX; do
     case $i in
         ecl:*) x=${x/e};;

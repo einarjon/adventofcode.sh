@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
-A=($(tr "L" "X" < ${1:-11.txt}))
+A=($(tr "L" "X" < "${1:-11.txt}"))
 B=(.${A//?/.}.); for i in "${A[@]}"; do B+=(.$i.); done; B+=($B); C=("${B[@]}");
-J=$(seq 1 ${#A}); I=$(seq 1 ${#A[@]}); change=($I); round=0
+J=$(seq 1 ${#A}); I=$(seq 1 ${#A[@]}); CHANGE=($I); round=0
 while [ ${#change} != 0 ]; do
-    change=(); l=
+    CHANGE=(); l=
     for i in $I; do
         for j in $J; do
             x=${B[i]:j:1}
@@ -14,23 +14,23 @@ while [ ${#change} != 0 ]; do
             fi
             l+=$x
         done
-        [ "${B[i]}" != .$l. ] && change+=($((i-1)) $i $((i+1)))
+        [ "${B[i]}" != .$l. ] && CHANGE+=($((i-1)) $i $((i+1)))
         C[i]=.$l.; l=
     done
     B=("${C[@]}")
-    I=$(printf "%s\n" ${change[@]} |sort -u)
+    I=$(printf "%s\n" "${CHANGE[@]}" |sort -u)
     ((++round==1)) && B=("${C[@]//X/x}")
     #((round%10)) || echo "$round: $((${#change[@]}/3))"
 done
 ans="${B[*]}"; ans=${ans//[ L.]}
 echo "11A: ${#ans}"
 
-#A=($(< ${1:-11.txt}))
+#A=($(< "${1:-11.txt}"))
 B=(L${A//?/L}L); for i in "${A[@]}"; do B+=(L${i}L); done; B+=($B)
 J=$(seq ${#A}); I=$(seq ${#A[@]}); change=1; round=0
 while [ ${#change} != 0 ]; do
     change=""; C=($B); l=""
-    for i in $I; do
+    for i in $I; do # shellcheck disable=SC2034
         for j in $J; do
             x=${B[i]:j:1}
             [[ "$x" != "L" && "$x" != "X" ]] && l+=$x && continue
@@ -46,7 +46,7 @@ while [ ${#change} != 0 ]; do
             s=${s//L}
             if [[ ${#s} == 0 ]]; then l+=X; elif [[ ${#s} -ge 5 ]]; then l+=L; else l+=$x; fi
         done
-        [ ${B[i]} != L${l}L ] && change+=1
+        [ "${B[i]}" != "L${l}L" ] && change+=1
         C+=(L${l}L); l=
     done
     C+=($B); B=("${C[@]}")
