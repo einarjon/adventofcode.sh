@@ -1,16 +1,42 @@
 #! /usr/bin/env bash
 A=($(sed -e "s/\([ew]\)\([ew]*\)/\1\2\2/g;s/^\([ew]\)/\1\1/" "${1:-24.txt}" ))
-#A=($(< "${1:-24.txt}"))
 declare -A B
-sum=0
 for i in "${A[@]}"; do
     s=${i//[^s]}
     n=${i//[^n]}
     e=${i//[^e]}
     w=${i//[^w]}
-    idx="N$((${#n}-${#s}))E$((${#e}-${#w}))"
-    B[${idx//-/_}]+=1
+    hash="$((${#e}-${#w})).$((${#n}-${#s}))"
+    if [[ -n "${B[${hash}]}" ]]; then
+        unset "B[${hash}]"
+    else
+        B[${hash}]=1
+    fi
 done
-for i in ${B[*]}; do sum+="+${#i}%2"; done
-echo "24A: $((sum))"
-#echo "24B: ??"
+echo "24A: ${#B[@]}"
+
+solve24() {
+    local -A C=()
+    for i in "${!B[@]}"; do
+        x=${i/.*}
+        y=${i/*.}
+        C[$i]+=''
+        C[$((x-1)).$((y-1))]+=1
+        C[$((x+1)).$((y-1))]+=1
+        C[$((x-2)).$y]+=1
+        C[$((x+2)).$y]+=1
+        C[$((x-1)).$((y+1))]+=1
+        C[$((x+1)).$((y+1))]+=1
+    done
+    for i in "${!C[@]}"; do
+        if [[ -n "${B[$i]}" ]]; then
+            [[ ${#C[$i]} == 1 || ${#C[$i]} == 2 ]] || unset "B[$i]"
+        else
+            [[ ${#C[$i]} == 2 ]] && B[$i]=1
+        fi
+    done
+}
+for _ in {1..100}; do
+    solve24
+done
+echo "24B: ${#B[@]}"

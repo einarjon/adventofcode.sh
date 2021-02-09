@@ -84,10 +84,9 @@ Description of what I'm doing. Contains spoilers....
     B. Then do the same trick as in day 4, for every field. Any number outside the min/max marks it as invalid.
     C. Find a field that has only one character left, mark that as the correct. Remove that character from all fields. Repeat until solved.
 
-### 17.sh - not done
- 1. A repeat of day 14, but with extra bother. Bash really isn't suitable for 3-D arrays (or 2-D arrays for that matter...). But it's only 13 layers total...
-   Could be optimized to only consider the +Z direction, because symmetry.
- 2. 4-D arrays. Nope...
+### 17.sh
+ 1. 3-D Game of Life. Use x.y.z as a named array index, and loop through all neighbours. Give all neighbours a +1 in a tmp array, and all currently active cubes a 0 (to correctly clear lone cubes).
+ 2. Remarkably easy with x.y.z.w as an index.
 
 ### 18.sh
  Have to turn glob off, or \* will be replaced with all files in directory.
@@ -118,7 +117,7 @@ Description of what I'm doing. Contains spoilers....
 
 ### 24.sh
  1. Use an X-Y grid with only diagonals. One step can be (±2,0) or (±1,±1). Modify input so that standalone e/w are doubled, and count the total movement.
- 2. Hex game of life, with negative indexes. Not suitable for bash. Nope...
+ 2. Hex game of life. Use the same index trick as day 17. Access the grid manually, since a loop would be a PITA.
 
 ### 25.sh
  1. A couple of while loops. Yay.
