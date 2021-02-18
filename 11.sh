@@ -2,7 +2,7 @@
 A=($(tr "L" "X" < "${1:-11.txt}"))
 B=(.${A//?/.}.); for i in "${A[@]}"; do B+=(.$i.); done; B+=($B); C=("${B[@]}");
 J=$(seq 1 ${#A}); I=$(seq 1 ${#A[@]}); CHANGE=($I); round=0
-while [ ${#change} != 0 ]; do
+while [ ${#I} != 0 ]; do
     CHANGE=(); l=
     for i in $I; do
         for j in $J; do
@@ -14,13 +14,13 @@ while [ ${#change} != 0 ]; do
             fi
             l+=$x
         done
-        [ "${B[i]}" != .$l. ] && CHANGE+=($((i-1)) $i $((i+1)))
+        [ "${B[i]}" != .$l. ] && CHANGE[i-1]=1 && CHANGE[i]=1 && CHANGE[i+1]=1
         C[i]=.$l.; l=
     done
     B=("${C[@]}")
-    I=$(printf "%s\n" "${CHANGE[@]}" |sort -u)
+    I=${!CHANGE[@]}
     ((++round==1)) && B=("${C[@]//X/x}")
-    #((round%10)) || echo "$round: $((${#change[@]}/3))"
+    #((round%10)) || echo "$round: ${#CHANGE[@]}"
 done
 ans="${B[*]}"; ans=${ans//[ L.]}
 echo "11A: ${#ans}"

@@ -20,5 +20,5 @@ while [ "$sum" != "${A[i]}" ]; do
     fi
     [[ $j -ge $i ]] && echo NOT FOUND && break
 done
-B=($(printf "%s\n" "${A[*]:k:j-k+1}" | sort -n))
+B=($(printf "%s\n" "${A[*]:k:j-k}" | sort -n))
 echo "9B: $k..$j = $((B[0]+B[-1]))"
