@@ -4,6 +4,7 @@ https://adventofcode.com/2020/
 
 Input not included, but can be given on the command line.
 Defaults to *number*.txt in the same folder (no leading 0).
+Setting env variable PUREBASH to any value (or giving a second argument) will use slow bash instead of using faster awk in days 15 and 25.
 
 Description of what I'm doing. Contains spoilers....
 
@@ -74,9 +75,9 @@ Description of what I'm doing. Contains spoilers....
 
 ### 15.sh
  1. Store the last known position in a sparse array. Calculate next position until done.
- 2. Finally bash fails. Sparse arrays in bash seem to be linked lists, so accessing/adding an item is O\[Nlog(N)\] or worse.
+ 2. Finally bash fails. Sparse arrays in bash seem to be linked lists, so accessing/adding an item is O\[N\] or worse.
     Gave up after 20 hours getting to item 6.1M, and solved it in 10-12 seconds with awk.
-    Using a sharded-set https://github.com/romkatv/advent-of-code-2019 solves this in about half an hour.
+    Using a sharded-set https://github.com/romkatv/advent-of-code-2019 solves this in about 20 minutes.
 
 ### 16.sh
  1. Find the min/max of the classes, then loop through every ticket to find illegal values.
@@ -98,9 +99,8 @@ Description of what I'm doing. Contains spoilers....
  2. Cheat a bit and use regex{n} to denote repeated matches.
 
 ### 20.sh
- 1. Slice and dice all permutations of the edges into arrays. Grep each tile against all permutations of edges.
-    The ones with only 6 matches are corners. The ones with 7 are edges.
- 2. Tile matching 144 pieces. Nope...
+ 1. Slice and dice all permutations of the edges into arrays. Grep each tile against all permutations of edges. Convert line number to index/rotation. The ones with only 2 matches are corners. The ones with 3 are edges. Use that to assemble the image.
+ 2. Not done yet: Once the picture is assembled, use a multi-line regex to find the monsters. Then count.
 
 ### 21.sh
  Grep, sort, count
@@ -121,5 +121,5 @@ Description of what I'm doing. Contains spoilers....
 
 ### 25.sh
  1. A couple of while loops. Yay.
- 2. I need to complete 17, 20-2 and 24-2 to get this one. Nope.
+ 2. I need to complete 20-2 to get this one. Nope.
 
