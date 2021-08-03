@@ -18,7 +18,7 @@ while [ ${#I} != 0 ]; do
         C[i]=.$l.; l=
     done
     B=("${C[@]}")
-    I=${!CHANGE[@]}
+    I=${!CHANGE[*]}
     ((++round==1)) && B=("${C[@]//X/x}")
     #((round%10)) || echo "$round: ${#CHANGE[@]}"
 done
@@ -30,9 +30,9 @@ B=(L${A//?/L}L); for i in "${A[@]}"; do B+=(L${i}L); done; B+=($B)
 J=$(seq ${#A}); I=$(seq ${#A[@]}); change=1; round=0
 while [ ${#change} != 0 ]; do
     change=""; C=($B); l=""
-    for i in $I; do # shellcheck disable=SC2034
+    for i in $I; do
         for j in $J; do
-            x=${B[i]:j:1}
+            x=${B[i]:$j:1}
             [[ "$x" != "L" && "$x" != "X" ]] && l+=$x && continue
             r=${B[i]:j+1}; r=${r//.}; R=${B[i]:0:j}; R=${R//.}
             s=${R: -1}${r:0:1}

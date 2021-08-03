@@ -1,7 +1,6 @@
 #! /usr/bin/env bash
 X=abcdefghijklmnopqrstuvwxyz; x=$X; a=0
-A=($(sed s/^$/X/ "${1:-6.txt}"))
-A+=(X)
+A=($(sed s/^$/X/ "${1:-6.txt}") X)
 while read -r -n1 i; do
     [ "$i" = X ] && { ((a+=26-${#x})); x=$X; }
     x=${x/$i}

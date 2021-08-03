@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 IFS=$',\n'
 input=${1:-13.txt}
-A=($(sed s/x,//g "$input"))
+A=($(tr -ds 'x' ',' < "$input"))
 time=$A; min=($A 0)
 for i in "${A[@]:1}"; do
     w=$((i-time%i))
