@@ -17,28 +17,27 @@ while [[ -n "$A" && -n "$B" ]]; do
     B=(${B[@]:1})
     #((++round%500==0)) && echo "$round: ${#A[@]}/${#B[@]}"
 done
-echo "22A: $(score "${A[@]}" "${B[@]}")"
+printf "22A: "; score "${A[@]}" "${B[@]}"
 
 r() {
   declare -A H
-  local a=($1) b=($2) hash
+  local a=($1) b=($2) depth=$3
   # shellcheck disable=SC2128,SC2181
   while [[ -n "$a" && -n "$b" ]]; do
-    hash=${a[*]}X${b[*]}
-    if (( H[${hash// /_}]++ > 0)); then
+    if (( ++H[${a[*]}X${b[*]}] > 1)); then
         return 0
     elif [[ $a -lt ${#a[@]} && $b -lt ${#b[@]} ]];  then
-        r "${a[*]:1:a}" "${b[*]:1:b}"
+        r "${a[*]:1:a}" "${b[*]:1:b}" $((depth+1))
     else
         [[ $a -gt $b ]]
     fi
     if [[ $? == 0 ]]; then a+=($a $b); else b+=($b $a); fi
     a=(${a[@]:1})
     b=(${b[@]:1})
-    #((${#H[@]}%1000==0)) && echo "$round:${#H[@]}: ${#a[@]}/${#b[@]}"
+    #((${#H[@]}%1000==0)) && echo "$depth:${#H[@]}: ${#a[@]}/${#b[@]}"
   done
-  ((${#a[*]}+${#b[*]} == N)) && echo "22B: $(score "${a[@]}" "${b[@]}")"
-  return ${#b[@]}
+  [[ $depth != 0 ]] && return ${#b[@]}
+  printf "22B: "; score "${a[@]}" "${b[@]}"
 }
 
-r "${C[*]:0:N/2}" "${C[*]:N/2}"
+r "${C[*]:0:N/2}" "${C[*]:N/2}" 0

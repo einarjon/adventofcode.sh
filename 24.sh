@@ -30,7 +30,7 @@ solve24() {
     done
     for i in "${!C[@]}"; do
         if [[ -n "${B[$i]}" ]]; then
-            [[ ${#C[$i]} == 1 || ${#C[$i]} == 2 ]] || unset "B[$i]"
+            [[ ${#C[$i]} == [12] ]] || unset "B[$i]"
         else
             [[ ${#C[$i]} == 2 ]] && B[$i]=1
         fi

@@ -4,7 +4,7 @@ https://adventofcode.com/2020/
 
 Input not included, but can be given on the command line.
 Defaults to *number*.txt in the same folder (no leading 0).
-Setting env variable PUREBASH to any value (or giving a second argument) will use slow bash instead of using faster awk in days 15 and 25.
+Setting env variable PUREBASH to any value (or giving a second argument) will use slow bash instead of using faster awk in days 15, 23 and 25.
 
 Description of what I'm doing. Contains spoilers....
 
@@ -66,7 +66,7 @@ Description of what I'm doing. Contains spoilers....
  2. Simple (possibly not correct) implementation of Chinese Remainder Theorem.
 
 ### 14.sh
- 1. Switch case similar to day 4 and 8. Use eval to avoid parsing the number in mem\[x\].
+ 1. Switch case similar to day 4 and 8. Use printf -v to avoid parsing the number in mem\[x\].
  2. Use IFS and read to simplify handling.
     Recursive function that converts the first X to 1 and 0, and calls itself twice until no X remains. Then do the thing.
 
@@ -113,13 +113,13 @@ Description of what I'm doing. Contains spoilers....
 
 ### 23.sh
  1. String manipulation. Lots of trial and error to get it right.
- 2. Not suitable for bash. Done in awk, but still takes about half a minute
+ 2. Just over 20 minutes in bash. Awk is more than 60 times faster.
 
 ### 24.sh
  1. Use an X-Y grid with only diagonals. One step can be (±2,0) or (±1,±1). Modify input so that standalone e/w are doubled, and count the total movement.
  2. Hex game of life. Use the same index trick as day 17. Access the grid manually, since a loop would be a PITA.
 
 ### 25.sh
- 1. A couple of while loops. Yay.
+ 1. While loop for 15M rounds. Yay. Awk finishes in seconds.
  2. I need to complete 20-2 to get this one. Nope.
 

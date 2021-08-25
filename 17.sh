@@ -30,7 +30,7 @@ solve17() {
     done
     for i in "${!C[@]}"; do
         if [[ -n "${B[$i]}" ]]; then
-            [[ ${#C[$i]} == 2 || ${#C[$i]} == 3 ]] || unset "B[$i]"
+            [[ ${#C[$i]} == [23] ]] || unset "B[$i]"
         else
             [[ ${#C[$i]} == 3 ]] && B[$i]=1
         fi

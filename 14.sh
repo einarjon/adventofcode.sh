@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 IFS=$'\n'
 A=($(< "${1:-14.txt}"))
-declare -a mem
+declare -a mem mem2
 for i in "${A[@]}"; do
     case $i in
-        mask*) y=${i//*= }; o=$((2#${y//X/0})); z=$((2#${y//X/1}));;
-        mem*)  y=${i//*= }; eval "${i// =*}=$(((y&z)|o))";;
+        mask*) y=${i/*= }; o=$((2#${y//X/0})); z=$((2#${y//X/1}));;
+        mem*)  y=${i/*= }; printf -v "${i/ =*}" "%s" $(((y&z)|o));;
     esac
 done
 printf -v sum "+%s" "${mem[@]}"

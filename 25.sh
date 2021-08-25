@@ -1,7 +1,6 @@
 #! /usr/bin/env bash
 A=($(< "${1:-25.txt}"))
-PUREBASH=${2:-$PUREBASH}
-if [ -n "$PUREBASH" ]; then
+if [[ -n ${2:-$PUREBASH} ]]; then
     trap 'echo "Giving up after $SECONDS seconds"; exit 1' INT TERM
     echo "This could take a minute. Ctrl-C or 'kill $$' to exit"
     declare -i k=1 e=1 key1=${A[0]} key2=${A[1]}

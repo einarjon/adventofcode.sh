@@ -7,10 +7,10 @@ while [ ${#I} != 0 ]; do
     for i in $I; do
         for j in $J; do
             x=${B[i]:j:1}
-            if [[ "$x" == "L" || "$x" == "X" ]]; then
+            if [[ "$x" == [LX] ]]; then
                 s="${B[i-1]:j-1:3}${B[i]:j-1:3}${B[i+1]:j-1:3}"
                 s=${s//[L.]}; s=${s/$x}
-                if [[ ${#s} == 0 ]]; then x=X; elif [[ ${#s} -ge 4 ]]; then x=L; fi
+                if [[ -z $s ]]; then x=X; elif (( ${#s} >= 4 )); then x=L; fi
             fi
             l+=$x
         done
@@ -33,7 +33,7 @@ while [ ${#change} != 0 ]; do
     for i in $I; do
         for j in $J; do
             x=${B[i]:$j:1}
-            [[ "$x" != "L" && "$x" != "X" ]] && l+=$x && continue
+            [[ "$x" != [LX] ]] && l+=$x && continue
             r=${B[i]:j+1}; r=${r//.}; R=${B[i]:0:j}; R=${R//.}
             s=${R: -1}${r:0:1}
             k=1; d=${B[i-k]:j-k:1}; while [ "$d" = '.' ]; do ((++k)); d=${B[i-k]:j-k:1}; done; s+=$d
@@ -44,7 +44,7 @@ while [ ${#change} != 0 ]; do
             k=1; d=${B[i+k]:j+k:1}; while [ "$d" = '.' ]; do ((++k)); d=${B[i+k]:j+k:1}; done; s+=$d
             #[[ ${#s} == 8 ]] || echo "ERROR: ($s) $k = $i, $j"
             s=${s//L}
-            if [[ ${#s} == 0 ]]; then l+=X; elif [[ ${#s} -ge 5 ]]; then l+=L; else l+=$x; fi
+            if [[ -z $s ]]; then l+=X; elif (( ${#s} >= 5 )); then l+=L; else l+=$x; fi
         done
         [ "${B[i]}" != "L${l}L" ] && change+=1
         C+=(L${l}L); l=

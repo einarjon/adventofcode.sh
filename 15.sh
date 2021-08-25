@@ -1,6 +1,5 @@
 #! /usr/bin/env bash
 A=($(<"${1:-15.txt}"))
-PUREBASH=${2:-$PUREBASH}
 declare -a B=()
 i=0; l=""
 for a in "${A[@]}"; do B[a]=$((++i)); done
@@ -9,28 +8,27 @@ while [ $i -lt 2020 ]; do
 done
 echo "15A: $n"
 
-# eval is slow, but large arrays are slower
 # Split the higher numbers into smaller arrays
+# large arrays are incredibly slow
 sharded_swap() { # syntax: l=B[$1]; B[$1]=$2
-    local x="B$(($1>>8))[$(($1&255))]"
-    #local x="B$(($1>>6))[$1&63]"
-    eval "l=\${$x}; $x=$2"
+    local -n x=$1
+    l=$x; x=$2
 }
 
-if [ -n "$PUREBASH" ]; then
+if [[ -n ${2:-$PUREBASH} ]]; then
     trap 'echo "Giving up (i=$i, $SECONDS seconds)"; exit 1' TERM INT
-    echo "This could take 15-20 minutes. Ctrl-C or 'kill $$' to stop."
+    echo "Part 2 could take 15-20 minutes. Ctrl-C or 'kill $$' to stop."
     declare -a B{1..1000}
-    for N in $(seq 1000000 1000000 30000000 ); do
+    for N in {1000000..30000000..1000000}; do
         while ((i < N)); do
             n=$((i-${l:-$i}));
             if (( n < 2048 )); then
                 l=${B[n]}; B[n]=$((++i))
             else
-                sharded_swap $n $((++i))
+                sharded_swap "B$((n>>8))[$((n&255))]" $((++i))
             fi
         done
-        echo "$i took $SECONDS seconds" ;
+        echo "$i took $SECONDS seconds"
     done
     echo "15B: $n"
 else
