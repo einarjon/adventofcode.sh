@@ -1,6 +1,8 @@
 # adventofcode.sh
-Advent of Code 2020, done in bash. Because why not?
+Advent of Code 2020 and 2015, done in bash. Because why not?
 https://adventofcode.com/2020/
+
+https://adventofcode.com/2015/ can be found in the folder 2015.
 
 Input not included, but can be given on the command line.
 Defaults to *number*.txt in the same folder (no leading 0).
