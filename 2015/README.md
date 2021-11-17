@@ -29,6 +29,9 @@ This is where bash sucks. The best I could do was an array of strings, and subst
  1. Switch to select what to do. Use substring index magic. Fixed strings of 1000 ones and zeros to make life easier. Swap is a bother, and uses string substitution.
  2. A million countable items in bash are always a bother. Using $(tr ...) allows me to store 62 values per character in a string, but it's extremely slow. Awk is around 30 times faster.
 
+*Update:* By collecting all the changes in an array and doing single $(tr ...) subshell call per input line, part 1 is over 2x faster.
+Part 2 is 40x faster, and outperforms awk.
+
 ### 07.sh
  1. After setting up, loop through all values and evaluate it to a number if all parameters have been evaluated.
 Takes about 100 iterations through all values. Run in a subshell to keep the namespace clean for part 2.

@@ -11,9 +11,10 @@ while read -r action x y _ X Y; do
             AA[i]=${AA[i]:0:x}${one:x:X-x+1}${AA[i]:X+1}; done;;
         off) for i in "${idx[@]:y:Y-y+1}"; do
             AA[i]=${AA[i]:0:x}${zero:x:X-x+1}${AA[i]:X+1}; done;;
-        toggle) for i in "${idx[@]:y:Y-y+1}"; do # swap using "t" as tmp
-            T=${AA[i]:x:X-x+1};T=${T//0/t}; T=${T//1/0}; T=${T//t/1};
-            AA[i]=${AA[i]:0:x}${T}${AA[i]:X+1}; done;;
+        toggle) PART="";
+            for i in "${idx[@]:y:Y-y+1}"; do PART+="${AA[i]:x:X-x+1} "; done
+            TMP=($(tr '01' '10' <<< "$PART"))
+            for i in "${idx[@]:y:Y-y+1}"; do AA[i]=${AA[i]:0:x}${TMP[i-y]}${AA[i]:X+1}; done;;
     esac
 done < <(sed "s/turn.//" "$input")
 IFS='' ANS=${AA[*]//0}
@@ -23,14 +24,14 @@ if [[ -n ${2:-$PUREBASH} ]]; then
     IFS=$' ,\n'
     AA=($(printf "%.s$zero\n" "${idx[@]}"))
     while read -r action x y _ X Y; do
+        PART=""
+        for i in "${idx[@]:y:$Y-y+1}"; do PART+="${AA[i]:x:X-x+1} "; done
         case $action in
-            on) for i in "${idx[@]:$y:$Y-y+1}"; do  # shift up by 1. '?' means overflow
-                AA[i]=${AA[i]:0:x}$(tr '0-9a-zA-Z' '1-9a-zA-Z?' <<< "${AA[i]:x:X-x+1}")${AA[i]:X+1}; done;;
-            off) for i in "${idx[@]:y:Y-y+1}"; do  # shift down by 1
-                AA[i]=${AA[i]:0:x}$(tr '1-9a-zA-Z' '0-9a-zA-Y' <<< "${AA[i]:x:X-x+1}")${AA[i]:X+1}; done;;
-            toggle)  for i in "${idx[@]:y:Y-y+1}"; do  # shift up by 2
-                AA[i]=${AA[i]:0:x}$(tr '0-9a-zA-Z' '2-9a-zA-Z??' <<< "${AA[i]:x:X-x+1}")${AA[i]:X+1}; done;;
+            on)     TMP=($(tr '0-9a-zA-Z' '1-9a-zA-Z?' <<< "$PART"));;  # shift up by 1. '?' means overflow
+            off)    TMP=($(tr '1-9a-zA-Z' '0-9a-zA-Y' <<< "$PART"));;   # shift down by 1
+            toggle) TMP=($(tr '0-9a-zA-Z' '2-9a-zA-Z??' <<< "$PART"));; # shift up by 2
         esac
+        for i in "${idx[@]:y:Y-y+1}"; do AA[i]=${AA[i]:0:x}${TMP[i-y]}${AA[i]:X+1}; done
     done < <(sed "s/turn.//" "$input")
     #ANS=$(printf "%s" "${AA[@]//0}" | grep -o . | sort | uniq -c | sed "s/^ */+/;s/ /*/")
     ANS=$(printf "%s" "${AA[@]//0}" | sed "s/./+&/g" )
