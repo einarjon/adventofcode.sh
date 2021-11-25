@@ -11,8 +11,8 @@ Setting env variable PUREBASH to any value (or giving a second argument) will us
 Description of what I'm doing. Contains spoilers....
 
 ### 01.sh
- 1. Simple grep. Loop through all the numbers looking for 2020-i.
- 2. Double loop through all the numbers looking for 2020-i-j.
+ 1. Use an array as a hash table. Loop through all the numbers looking for 2020-a.
+ 2. Double loop through all the numbers looking for 2020-a-b.
 
 ### 02.sh
  Simple read and string manipulation. Use IFS to split up the min/max and remove the ':'.
@@ -97,7 +97,7 @@ Description of what I'm doing. Contains spoilers....
  2. Just replace "\*" with ")\*(" to change the precedence. Add "(" and ")" to the ends to close off the brackets.
 
 ### 19.sh
- 1. Recursive regex building. Use a cache to speed up previously built regex.
+ 1. Recursive regex building. Use a cache to only build a regex once for each rule.
  2. Cheat a bit and use regex{n} to denote repeated matches.
 
 ### 20.sh

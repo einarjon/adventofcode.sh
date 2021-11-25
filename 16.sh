@@ -6,7 +6,7 @@ A=($(grep "," "$input"))
 sum=""
 for i in "${!A[@]}"; do
   for j in ${A[i]//,/ }; do
-    (( j < min || j > max )) && sum+=+$j && A[i]=""
+    (( j < min || j > max )) && sum+=+$j A[i]=""
   done
 done
 echo "16A: $((sum))"
@@ -20,7 +20,7 @@ while read -r name min1 max1 _ min2 max2; do # Read min/max values and field nam
     Cm1[i]=$min1; CM1[i]=$max1
     Cm2[i]=$min2; CM2[i]=$max2
     C[i++]=$name
-done < <(sed -n -e "/ .*:/ s/ /_/;/or/p" "$input")
+done < <(sed -n -e "/ .*:/s/ /_/;/or/p" "$input")
 IFS=$' \n'
 idx=${!C[*]}
 for line in "${B[@]}"; do
@@ -38,9 +38,9 @@ total=1
 while [[ "$oldC" != "${Cf[*]}" ]]; do
   oldC="${Cf[*]}"
   for i in $idx; do
-    if [ ${#Cf[i]} = 1 ] ; then
+    if [[ ${#Cf[i]} == 1 ]]; then
       x=${Cf[i]}
-      [ "${C[i]:0:3}" = dep ] && total+="*${my_ticket[36#$i]}"
+      [[ ${C[i]} = dep* ]] && total+="*${my_ticket[36#$x]}"
       Cf=("${Cf[@]//$x}")
     fi
   done

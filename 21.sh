@@ -20,5 +20,5 @@ done
 IFS=$'\n'
 ans=$(grep -o ".*(" "$input" | grep -o "[a-z]*" | grep -v -c -F "${B[*]}")
 echo "21A: $ans"
-IFS=,
+IFS=$','
 echo "21B: ${B[*]}"

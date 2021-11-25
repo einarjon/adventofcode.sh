@@ -6,7 +6,7 @@ c() {
     local i sum=0 op='+'
     # shellcheck disable=SC2048
     for i in $*; do
-        if [[ $i = '+' || $i = '*' ]]; then
+        if [[ $i == [+*] ]]; then
             op=$i
         else
             ((sum$op=i))

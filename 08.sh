@@ -20,8 +20,8 @@ solve8 || echo "8A: $acc"
 
 A=("${B[@]}");
 for k in "${!A[@]}"; do
-    if   [ ${A[k]:0:3} = nop ]; then A[k]=${A[k]/nop/jmp};
-    elif [ ${A[k]:0:3} = jmp ]; then A[k]=${A[k]/jmp/nop};
+    if   [[ ${A[k]} = nop* ]]; then A[k]=jmp${A[k]:3};
+    elif [[ ${A[k]} = jmp* ]]; then A[k]=nop${A[k]:3};
     else continue; fi
     solve8 && break
     A=("${B[@]}")

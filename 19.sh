@@ -9,29 +9,30 @@ for i in "${A[@]}"; do
 done
 
 IFS=$' \n'
-REGEX=()
+REGEX=() regex=""
+# shellcheck disable=SC2034,SC2048
 r(){
-    local x=""
-    # shellcheck disable=SC2048
-    for i in $*; do
-      if [ -z "${i/[ab|]}" ]; then
-          x+=$i
-      else
-          [[ -z "${REGEX[$i]}" ]] && REGEX[$i]="($(r "${RULE[$i]}"))"
-          x+="${REGEX[$i]}"
-          #x+="($(r "${RULE[$i]}"))"
-     fi
+    local -n rx=$1; local x="" i
+    for i in ${*:2}; do
+        if [ -z "${i/[ab|]}" ]; then
+            x+=$i
+        else
+            [[ -z "${REGEX[i]}" ]] && r "REGEX[$i]" "${RULE[i]}"
+            x+=${REGEX[i]}
+        fi
     done
-    echo "$x"
+    [[ ${x} == *\|* ]] && x="($x)" # Only brackets if needed
+    rx=$x
 }
-regex=$(r 0)
-echo "19A: $(grep -E -c "^${regex}$" "$input")"
+r regex 0
+printf "19A: "; grep -E -c "^${regex}$" "$input"
 
 #RULE[8]="42 8"
 #RULE[11]="42 31 | 42 11 31"
-r42="$(r 42)"
-r31="$(r 31)"
-r8="${r42}{1,5}"
-r11="${r42}${r31}"
-for n in {2..5}; do r11+="|${r42}{$n}${r31}{$n}"; done
-echo "19B: $(grep -E -c "^($r8)($r11)$" "$input")"
+REGEX[8]="(${REGEX[42]}{1,5})"
+REGEX[11]="${REGEX[42]}${REGEX[31]}"
+for n in {2..5}; do REGEX[11]+="|${REGEX[42]}{$n}${REGEX[31]}{$n}"; done
+REGEX[11]="(${REGEX[11]})"
+REGEX[0]="" regex=""
+r regex 0
+printf "19B: "; grep -E -c "^${regex}$" "$input"
