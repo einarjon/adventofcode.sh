@@ -4,7 +4,7 @@ https://adventofcode.com/2015/
 
 Input can be given on the command line.
 Defaults to *number*.txt in the same folder (no leading 0).
-Setting env variable PUREBASH to any value (or giving a second argument) will use slow bash instead of using faster awk in days 6 and 25.
+Setting env variable PUREBASH to any value (or giving a second argument) will use slow bash instead of using faster awk in days 6 and 25 and python2/3 in day 4.
 
 ### 01.sh
  1. Convert brackets to ±1 and add them up.
@@ -19,7 +19,8 @@ Sort the dimensions by size. Add up the dimensions. Using a bash "bubble sort" i
 
 ### 04.sh
 Oneliners using md5sum. Calling md5sum in a subshell forever to run (~150 hashes/sec). Running it from 1 could take 7-8 hours.
-Speed up by setting the number to nearest 100000 below my target, skipping over 98% of the md5sum calculations.
+I'm breaking all my self-imposed rules here and using python. Python version finishes both parts in 2-3 seconds (py2 is about a second slower than py3).
+Optional speed up for bash by setting the number to nearest 100000 below my target, skipping over 98% of the md5sum calculations.
 
 ### 05.sh
 Oneliners using grep -E.
