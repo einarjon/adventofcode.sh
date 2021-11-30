@@ -102,7 +102,7 @@ Description of what I'm doing. Contains spoilers....
 
 ### 20.sh
  1. Slice and dice all permutations of the edges into arrays. Grep each tile against all permutations of edges. Convert line number to index/rotation. The ones with only 2 matches are corners. The ones with 3 are edges. Use that to assemble the image.
- 2. Not done yet: Once the picture is assembled, use a multi-line regex to find the monsters. Then count.
+ 2. Almost impossible in bash. The grep gave me the rotation, but not which tiles needed flipping. A second step compares left and right sides of each pair of tiles to decide which ones must be flipped. Once the picture is assembled, use a multi-line bash regex to find  a monster. Modify one char to not trigger again on that monster. Repeat until no more monsters are found. Then count.
 
 ### 21.sh
  Grep, sort, count
@@ -123,5 +123,3 @@ Description of what I'm doing. Contains spoilers....
 
 ### 25.sh
  1. While loop for 15M rounds. Yay. Awk finishes in seconds.
- 2. I need to complete 20-2 to get this one. Nope.
-
