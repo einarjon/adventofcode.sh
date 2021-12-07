@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
-A=$(< "${1:-6.txt}")
-A=${A//,}
+declare -i A=(0 0 0 0 0 0 0 0 0) n=0
+while read freq age; do A[age]=$freq; done < <(grep -o [0-9] "${1:-6.txt}" | sort | uniq -c)
 solve() {
-    for ((; n < $1; ++n)); do
-        #births=${A//[^0]}; births=${births//0/8}
-        births=$(tr -cd 0 <<< "$A" | tr 0 8)
-        B=$(echo -n "$A" | tr 876543210 765432106 )
-        A[i]="${B[i]}${births}"
+    while ((n < $1)); do
+        i=$((n++%9))
+        A[i-2]+=${A[i]}
     done
+    sum=0; for i in "${!A[@]}"; do ((sum+=A[i])); done
 }
-n=0
 solve 80
-echo "6A: ${#A}"
-#solve 256
-#echo "6B: ${#A}"
+echo "6A: $sum"
+solve 256
+echo "6B: $sum"
