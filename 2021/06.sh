@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 declare -i A=(0 0 0 0 0 0 0 0 0) n=0
-while read freq age; do A[age]=$freq; done < <(grep -o [0-9] "${1:-6.txt}" | sort | uniq -c)
+while read -r freq age; do A[age]=$freq; done < <(grep -o "[0-9]" "${1:-6.txt}" | sort | uniq -c)
 solve() {
     while ((n < $1)); do
         i=$((n++%9))

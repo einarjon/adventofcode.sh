@@ -20,7 +20,8 @@ for i in "${idx[@]}"; do [[ -z ${C[i]} ]] && break; done
 j=$((10*(i/10))) # columns
 printf -v sum "%s" "${C[@]:j:5}"
 sum=${sum//--/+}; sum=${sum//-}
-echo "12A: $n*$sum  = $((n*(sum)))"
+echo "12A: $((n*(sum)))"
+
 printf -v WON "=%d=" {0..990..10}
 WON=${WON/=$j=} # only do each card once
 for i in "${idx[@]:j:10}"; do C[i]=DONE; done
@@ -40,4 +41,4 @@ for k in "${!NUMBERS[@]}"; do
 done
 printf -v sum "%s" "${C[@]:j:5}"
 sum=${sum//--/+}; sum=${sum//-}
-echo "12B: $n*$sum  = $((n*(sum)))"
+echo "12B: $((n*(sum)))"

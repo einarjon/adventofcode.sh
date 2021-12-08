@@ -35,6 +35,6 @@ Description of what I'm doing. Contains spoilers....
  1. Use the median.
  2. Use the mean.
 
-### 07.sh
+### 08.sh
  1. Simple grep to fish out the output digits and isolate the ones with 2-4 or 7 digits.
  2. A damn bother, since the letters were scrambled. Assigned the numbers based on length. The 5-6 length ones got special handling, by checking the length after removing the letters that make up 4 and 7. That was enough to identify every one.
