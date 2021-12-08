@@ -29,9 +29,12 @@ Description of what I'm doing. Contains spoilers....
  2. Mark diagonals on a second hash table. Add the first hash table to it and return a count of points that are != 1.
 
 ### 06.sh
- 1. String manipulation. Bad O(), but finishes part 1 in half a second.
- 2. Too slow...
+ Store a count of the fishes each day in a circular buffer, with the current 0-day at n%9. Bash arrays are circular by default.
 
 ### 07.sh
- 1. Brute force search.
- 2. More brute force.
+ 1. Use the median.
+ 2. Use the mean.
+
+### 07.sh
+ 1. Simple grep to fish out the output digits and isolate the ones with 2-4 or 7 digits.
+ 2. A damn bother, since the letters were scrambled. Assigned the numbers based on length. The 5-6 length ones got special handling, by checking the length after removing the letters that make up 4 and 7. That was enough to identify every one.
