@@ -51,9 +51,9 @@ Description of what I'm doing. Contains spoilers....
  2. Remove any string containing a closing bracket, reverse the rest. Instead of adding a closing bracket, add the value for each opening bracket at a time.
 
 ### 11.sh
-  1. Convert the map to a 1D array, and add -9999999 to the sides so I don\'t need to think about edges. Recursve function to flash the octopi.
+  1. Convert the map to a 1D array, and add -9999999 to the sides so I don\'t need to think about edges. Recursive function to flash the octopi.
   2. Run until all fields flash at once.
 
 ### 12.sh
- 1. Brute force. Simplified version of the recursive functions of 2015 (9 and 13). Collect a hashmap wit the destinations for each cave. Remove "start" from the destinations to simplify coding.
+ 1. Brute force. Simplified version of the recursive functions of 2015 (9 and 13). Collect a hashmap with the destinations for each cave. Remove "start" from the destinations to simplify coding.
  2. Add a dumb check to allow the first lowercase cave twice. Takes way too long to run.
