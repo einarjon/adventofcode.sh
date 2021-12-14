@@ -57,3 +57,11 @@ Description of what I'm doing. Contains spoilers....
 ### 12.sh
  1. Brute force. Simplified version of the recursive functions of 2015 (9 and 13). Collect a hashmap with the destinations for each cave. Remove "start" from the destinations to simplify coding.
  2. Add a dumb check to allow the first lowercase cave twice. Takes way too long to run.
+
+### 13.sh
+ 1. Functions fold_x/fold_y for easier handling. Fold and remove duplicates for first line.
+ 2. Repeat for rest of the lines. Collect space-delimited dots in an array of strings. Print the array.
+
+### 14.sh
+ Collect the conversions in an array. Count the number of pairs in the initial polymer. For each polymer, convert the input to 2 outputs.
+ For the final count, every char is part of 2 pairs except the ends, so add 1 to the ends and then divide by 2 for the final number.
