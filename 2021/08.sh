@@ -23,7 +23,7 @@ while read -r -a A; do
             6,??,*)   n+=9;;
             6,*)      n+=0;;
             7,*)      n+=8;;
-            *) echo ERROR: ${#i},${i//[$T4]},${i//[$T7]}; break 2;;
+            *) echo "ERROR: ${#i},${i//[$T4]},${i//[$T7]}"; break 2;;
         esac
     done
     sum+=+$((10#$n))

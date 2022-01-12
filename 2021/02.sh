@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 input=${1:-2.txt}
 declare -i X=0 Y=0 y=0
 while read -r dir n; do

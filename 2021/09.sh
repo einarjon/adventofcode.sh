@@ -1,6 +1,6 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 A=($(< "${1:-9.txt}"))
-B=(9${A//?/9}9); for i in "${A[@]}"; do B+=(9${i}9); done; B+=($B); C=("${B[@]}");
+B=(9${A//?/9}9); for i in "${A[@]}"; do B+=(9${i}9); done; B+=(${B[0]}); C=("${B[@]}");
 n=${#A} N=${#A[@]}
 declare -A LOWS
 for ((y=1; y<=N; ++y)); do
@@ -17,7 +17,7 @@ printf -v sum "+%s" "${LOWS[@]}"
 echo "9A: $((sum + ${#LOWS[@]}))"
 
 C=(${C[@]//[0-8]/-}) c=0
-F=({a..z} {A..Z} {0..8} + _ / =)
+F=({a..z} {A..Z} {0..8} + _ / "=")
 idx=($(printf "%s\n" "${!LOWS[@]}" | sort -n))
 for i in "${idx[@]}"; do
     LOWS[$i]=${F[c]}
@@ -38,10 +38,10 @@ for i in {1..6}; do
 done
 while [[ "${C[*]}" == *-* ]]; do
     #echo "round $((++round))"
-    for y in ${!C[@]}; do
+    for y in "${!C[@]}"; do
         [[ ${C[y]} != *-* ]] && continue
-        minus=($(sed "s/./&\n/g" <<< ${C[y]:1} | grep -n '-'))
-        for x in ${minus[@]//:*}; do
+        minus=($(sed "s/./&\n/g" <<< "${C[y]:1}" | grep -n '-'))
+        for x in "${minus[@]//:*}"; do
             for j in 1 -1; do
                 k=$j
                 while [[ ${C[y+k]:x:1} == - ]]; do ((k+=j)); done
@@ -60,10 +60,10 @@ while [[ "${C[*]}" == *-* ]]; do
 done
 
 AREA=()
-for i in ${F[@]}; do
+for i in "${F[@]}"; do
     while read -r A;do
         AREA+=(${#A}:$A)
-    done < <(printf "%s\n" "${C[@]}" | grep -a1 $i | tr -cd "$i-" | tr -s '-' '\n')
+    done < <(printf "%s\n" "${C[@]}" | grep -a1 "$i" | tr -cd "$i-" | tr -s '-' '\n')
 done
 BIG=($(printf "%s\n" "${AREA[@]//:*}" | sort -nr))
 echo "9B: $((BIG[0]*BIG[1]*BIG[2]))"

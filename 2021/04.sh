@@ -1,12 +1,11 @@
-#! /usr/bin/env bash
-declare -i i
+#!/usr/bin/env bash
+declare -i i j=0
 while read -r a b c d e; do
     if (( ${#NUMBERS[@]} == 0 )); then NUMBERS=(${a//,/ });
     elif [[ -n $a ]]; then
         C[i++]="-$a--$b--$c--$d--$e-" # rows
-        j=$((10*(i/10))) # columns
         C[j+5]+="-$a-";C[j+6]+="-$b-";C[j+7]+="-$c-";C[j+8]+="-$d-";C[j+9]+="-$e-";
-        ((i%5==0)) && i+=5
+        ((i%5==0)) && i+=5 j+=10
     fi
 done < "${1:-4.txt}"
 idx=(${!C[@]})
@@ -17,16 +16,15 @@ for k in "${!NUMBERS[@]}"; do
     (( ${#B[@]} != ${#C[@]} )) && break
 done
 for i in "${idx[@]}"; do [[ -z ${C[i]} ]] && break; done
-j=$((10*(i/10))) # columns
+j=$((10*(i/10))) # card number
 printf -v sum "%s" "${C[@]:j:5}"
 sum=${sum//--/+}; sum=${sum//-}
-echo "12A: $((n*(sum)))"
+echo "12A: $((n*sum))"
 
 printf -v WON "=%d=" {0..990..10}
 WON=${WON/=$j=} # only do each card once
 for i in "${idx[@]:j:10}"; do C[i]=DONE; done
-for k in "${!NUMBERS[@]}"; do
-    n=${NUMBERS[k]}
+for n in "${NUMBERS[@]:k+1}"; do
     C=("${C[@]//-$n-}")
     B=(${C[@]})
     if (( ${#B[@]} != ${#C[@]} )); then
@@ -41,4 +39,4 @@ for k in "${!NUMBERS[@]}"; do
 done
 printf -v sum "%s" "${C[@]:j:5}"
 sum=${sum//--/+}; sum=${sum//-}
-echo "12B: $((n*(sum)))"
+echo "12B: $((n*sum))"

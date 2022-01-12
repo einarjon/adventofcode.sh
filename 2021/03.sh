@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 nextchar() {
     local -n most=$1 least=$2 in=$3
     local all; all=$(printf "%s\n" "${in[@]}" | cut -c"$4" | tr -d '\n' )
